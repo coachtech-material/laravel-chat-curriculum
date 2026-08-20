@@ -1,0 +1,219 @@
+/* COACHTECH × PHP / Laravel 入門
+   配色は COACHTECH のブランドカラー（LP と共通）。
+     ベース   #00526B  … ヘッダー・タブ・ボタンの地・本文リンク
+     ボタン1  #14BBBB  … 装飾のアクセント（見出しのしおり・カードの縁・グラデーション）
+     ボタン2  #328CE6  … 補助のアクセント
+
+   白背景でのコントラストは #00526B が 8.7:1、#14BBBB が 2.4:1、#328CE6 が 3.5:1。
+   後の2色は文字色にすると読みにくいため、装飾と「濃い文字を載せる地」に限って使う。 */
+
+:root {
+  --ct-base: #00526b;
+  --ct-base-light: #0a6a86;
+  --ct-base-dark: #003d50;
+  --ct-teal: #14bbbb;
+  --ct-blue: #328ce6;
+  --ct-link: #056a85;   /* 白背景 6.2:1 */
+}
+
+/* ---------------------------------------------------------------- ライト */
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color: var(--ct-base);
+  --md-primary-fg-color--light: var(--ct-base-light);
+  --md-primary-fg-color--dark: var(--ct-base-dark);
+  --md-primary-bg-color: #ffffff;
+  --md-primary-bg-color--light: rgba(255, 255, 255, 0.7);
+
+  --md-accent-fg-color: var(--ct-base);
+  --md-accent-fg-color--transparent: rgba(20, 187, 187, 0.12);
+
+  --md-typeset-a-color: var(--ct-link);
+}
+
+/* ---------------------------------------------------------------- ダーク */
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color: var(--ct-base);
+  --md-primary-fg-color--light: var(--ct-base-light);
+  --md-primary-fg-color--dark: var(--ct-base-dark);
+  --md-primary-bg-color: #ffffff;
+
+  --md-accent-fg-color: var(--ct-teal);
+  --md-accent-fg-color--transparent: rgba(20, 187, 187, 0.14);
+
+  --md-typeset-a-color: #4fd3d3;   /* ダーク地 10:1 */
+  --md-default-bg-color: #101519;
+}
+
+/* ヘッダー: ロゴが白なのでベースカラーの地に置く */
+.md-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: none;
+}
+.md-header__button.md-logo :is(img, svg) {
+  height: 1.4rem;
+  width: auto;
+}
+.md-tabs {
+  background-color: var(--ct-base);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+.md-tabs__link {
+  opacity: 0.74;
+  font-weight: 500;
+}
+.md-tabs__link:is(:hover, :focus, .md-tabs__link--active) {
+  opacity: 1;
+}
+/* アクティブなタブにブランドのティールで下線を引く */
+.md-tabs__item--active .md-tabs__link {
+  box-shadow: inset 0 -3px 0 var(--ct-teal);
+}
+
+/* ---------------------------------------------------------------- 本文 */
+.md-typeset {
+  line-height: 1.85;
+}
+.md-typeset h1 {
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+/* セクションの H2 に細いしおりを付けて区切りを分かりやすくする */
+.md-typeset h2 {
+  padding-left: 0.6rem;
+  border-left: 3px solid var(--ct-teal);
+  font-weight: 700;
+}
+.md-typeset h3 {
+  font-weight: 600;
+}
+
+/* コード: 教材はコピペで進めるので、ファイル名とコピーボタンを目立たせる */
+.md-typeset code,
+.md-typeset pre > code {
+  font-size: 0.76rem;
+}
+.md-typeset .highlight span.filename {
+  background-color: var(--md-code-bg-color);
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+  font-weight: 600;
+  font-size: 0.7rem;
+}
+
+/* 表: 横スクロールできるようにして狭い画面でも崩れないようにする */
+.md-typeset table:not([class]) {
+  font-size: 0.76rem;
+  display: table;
+}
+.md-typeset__table {
+  overflow-x: auto;
+}
+
+/* コールアウト: 種類ごとの色は Material のままにして、角と余白だけ整える */
+.md-typeset :is(.admonition, details) {
+  border-radius: 0.3rem;
+  border-width: 0 0 0 3px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.07);
+  font-size: 0.78rem;
+}
+
+/* 見出しのパーマリンク(¶)はホバーまで隠す */
+.md-typeset .headerlink {
+  opacity: 0;
+  transition: opacity 0.2s;
+  color: var(--md-default-fg-color--lighter);
+}
+.md-typeset :is(h1, h2, h3, h4, h5, h6):hover .headerlink,
+.md-typeset .headerlink:focus {
+  opacity: 1;
+}
+
+/* 画面キャプチャ: 要素単位で切り出してあるので原寸を超えて拡大しない */
+.md-typeset img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Mermaid の図を中央に置く */
+.md-typeset .mermaid {
+  text-align: center;
+  margin: 1.4em 0;
+}
+
+/* ---------------------------------------------------- トップページのヒーロー */
+.ct-hero {
+  margin: 0 0 2.4rem;
+  padding: 2.2rem 2rem;
+  border-radius: 0.5rem;
+  background: linear-gradient(135deg, #00526b 0%, #046f88 52%, #14bbbb 100%);
+  color: #ffffff;
+}
+.ct-hero h1 {
+  margin: 0 0 0.6rem;
+  max-width: 22em;
+  color: #ffffff !important;
+  font-size: 1.6rem;
+  line-height: 1.5;
+  border: 0;
+  padding: 0;
+}
+.ct-hero p {
+  margin: 0.4rem 0 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.84rem;
+  line-height: 1.9;
+}
+.ct-hero .ct-meta {
+  margin-top: 1.2rem;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* つくるもののカード */
+.ct-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  gap: 0.9rem;
+  margin: 1.4rem 0 2rem;
+}
+.ct-card {
+  padding: 1.1rem 1.2rem;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-top: 3px solid var(--ct-teal);
+  border-radius: 0.3rem;
+  background: var(--md-default-bg-color);
+}
+.ct-card strong {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-size: 0.86rem;
+}
+.ct-card span {
+  font-size: 0.76rem;
+  line-height: 1.8;
+  color: var(--md-default-fg-color--light);
+}
+
+/* 「学習を始める」ボタン: 白文字が読める地色（8.7:1）を使う */
+.md-typeset .ct-start {
+  display: inline-block;
+  margin: 0.2rem 0 0;
+  padding: 0.65rem 1.6rem;
+  border-radius: 0.3rem;
+  background: var(--ct-base);
+  color: #ffffff !important;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.md-typeset .ct-start:hover {
+  background: #0a7d99;
+}
+
+/* フッター */
+.md-footer {
+  background-color: var(--ct-base);
+}
+.md-footer-meta {
+  background-color: var(--ct-base-dark);
+}

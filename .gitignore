@@ -1,0 +1,6 @@
+.DS_Store
+
+# MkDocs build output（build_docs.py と mkdocs build の生成物）
+site/
+docs/part-*/
+docs/assets/
