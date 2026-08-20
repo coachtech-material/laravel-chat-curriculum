@@ -207,9 +207,71 @@
   box-shadow: none;
   border-bottom: 1px solid var(--ct-rule);
 }
+
+/* 61 セクション・14 章あるので、幅と折り返しと階層の見え方を作り込む。
+   ラベル自体（第N部 / 第N章）の短縮はビルド側（shorten_nav_labels）で行う。 */
+
+/* 章名が1行に収まるよう、左ペインを既定より広げる。
+   .md-main__inner は flex で .md-content が flex:1 なので、幅だけ変えれば
+   本文はひとりでに追従する（margin を足すと本文が潰れる） */
+@media screen and (min-width: 76.25em) {
+  .md-sidebar--primary {
+    width: 16rem;
+  }
+}
+
+/* 折り返しと矢印 */
+.md-nav__item--nested > .md-nav__link {
+  /* 2行になったとき矢印が上端に取り残されるのを防ぐ */
+  align-items: center;
+}
+.md-nav__link {
+  line-break: strict;      /* 小書き仮名（ー・ャ等）の前で折らない */
+  word-break: normal;
+  overflow-wrap: break-word;
+  text-wrap: pretty;       /* 最終行に1文字だけ残る折り返しを避ける */
+}
+
+/* サイドバーの内側の余白を詰めて、ラベルに使える幅を稼ぐ */
+.md-sidebar--primary .md-sidebar__inner {
+  padding-right: 0.4rem;
+}
+
+/* 字送り: 部 → 章 → 節 で小さくする。
+   既定では章が 14px でナビ内で最も大きく、長い章名が折り返す原因になっていた */
+.md-nav--primary > .md-nav__list > .md-nav__item > .md-nav__link {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--md-default-fg-color--light);
+}
+.md-nav--primary .md-nav__item .md-nav__item > .md-nav__link {
+  font-size: 0.66rem;
+  font-weight: 500;
+  line-height: 1.55;
+}
+.md-nav--primary .md-nav__item .md-nav__item .md-nav__item > .md-nav__link {
+  font-size: 0.63rem;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+/* 節のまとまりを細い罫でぶら下げる */
+.md-nav--primary .md-nav__item .md-nav__item .md-nav__list {
+  margin-left: 0.3rem;
+  padding-left: 0.5rem;
+  border-left: 1px solid var(--ct-rule);
+}
+
+/* 現在のセクションを線で示す（文字色だけだと 61 行の中で見つけにくい） */
 .md-nav__link--active,
 .md-nav__link--active code {
-  font-weight: 600;
+  font-weight: 700;
+}
+.md-nav--primary .md-nav__item .md-nav__item .md-nav__item > .md-nav__link--active {
+  margin-left: -0.5rem;
+  padding-left: 0.5rem;
+  border-left: 2px solid var(--md-accent-fg-color);
 }
 
 /* --------------------------------------------------- フッター（1段にする）
