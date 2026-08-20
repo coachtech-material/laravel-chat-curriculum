@@ -1,19 +1,18 @@
-/* COACHTECH × PHP / Laravel 入門
+/* COACHTECH PHP / Laravel 入門
    配色は COACHTECH のブランドカラー（LP と共通）。
-     ベース   #00526B  … ヘッダー・タブ・ボタンの地・本文リンク
-     ボタン1  #14BBBB  … 装飾のアクセント（見出しのしおり・カードの縁・グラデーション）
+     ベース   #00526B  … ヘッダー・フッター・ボタンの地・本文リンク
+     ボタン1  #14BBBB  … 装飾のアクセント（見出しのしおり・罫）
      ボタン2  #328CE6  … 補助のアクセント
 
    白背景でのコントラストは #00526B が 8.7:1、#14BBBB が 2.4:1、#328CE6 が 3.5:1。
-   後の2色は文字色にすると読みにくいため、装飾と「濃い文字を載せる地」に限って使う。 */
+   後の2色は文字色にすると読みにくいため、装飾に限って使う。 */
 
 :root {
   --ct-base: #00526b;
   --ct-base-light: #0a6a86;
   --ct-base-dark: #003d50;
   --ct-teal: #14bbbb;
-  --ct-blue: #328ce6;
-  --ct-link: #056a85;   /* 白背景 6.2:1 */
+  --ct-link: #056a85;    /* 白背景 6.2:1 */
 }
 
 /* ---------------------------------------------------------------- ライト */
@@ -28,63 +27,87 @@
   --md-accent-fg-color--transparent: rgba(20, 187, 187, 0.12);
 
   --md-typeset-a-color: var(--ct-link);
+
+  --ct-rule: rgba(0, 82, 107, 0.14);
+  --ct-panel: #f4f8f9;
 }
 
 /* ---------------------------------------------------------------- ダーク */
 [data-md-color-scheme="slate"] {
+  /* Material の slate は色相で地の色を決める。ブランドに寄せた寒色に振る */
+  --md-hue: 205;
+
   --md-primary-fg-color: var(--ct-base);
   --md-primary-fg-color--light: var(--ct-base-light);
   --md-primary-fg-color--dark: var(--ct-base-dark);
   --md-primary-bg-color: #ffffff;
 
   --md-accent-fg-color: var(--ct-teal);
-  --md-accent-fg-color--transparent: rgba(20, 187, 187, 0.14);
+  --md-accent-fg-color--transparent: rgba(20, 187, 187, 0.16);
 
-  --md-typeset-a-color: #4fd3d3;   /* ダーク地 10:1 */
-  --md-default-bg-color: #101519;
+  --md-typeset-a-color: #5fd6d6;   /* ダーク地 9:1 */
+
+  --ct-rule: rgba(255, 255, 255, 0.14);
+  --ct-panel: rgba(255, 255, 255, 0.04);
 }
 
-/* ヘッダー: ロゴが白なのでベースカラーの地に置く */
+/* ------------------------------------------------------------ ヘッダー
+   ロゴが COACHTECH のワードマーク、その右に教材名。細い罫で仕切って
+   「COACHTECH の PHP / Laravel 入門」と一息で読めるようにする。 */
 .md-header {
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: none;
 }
+.md-header__button.md-logo {
+  margin-right: 0.55rem;
+  padding-right: 0.7rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.28);
+}
 .md-header__button.md-logo :is(img, svg) {
-  height: 1.4rem;
+  height: 1.05rem;   /* ワードマークなので小ぶりに */
   width: auto;
 }
-.md-tabs {
-  background-color: var(--ct-base);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-.md-tabs__link {
-  opacity: 0.74;
+.md-header__title {
+  margin-left: 0;
   font-weight: 500;
 }
-.md-tabs__link:is(:hover, :focus, .md-tabs__link--active) {
-  opacity: 1;
-}
-/* アクティブなタブにブランドのティールで下線を引く */
-.md-tabs__item--active .md-tabs__link {
-  box-shadow: inset 0 -3px 0 var(--ct-teal);
+.md-header__topic:first-child {
+  font-weight: 500;
 }
 
-/* ---------------------------------------------------------------- 本文 */
+/* -------------------------------------------------------------- 本文 */
 .md-typeset {
   line-height: 1.85;
 }
+/* Material の既定では H1 が淡色になる。教材のタイトルは本文と同じ濃さで出す */
 .md-typeset h1 {
+  color: var(--md-default-fg-color);
   font-weight: 700;
-  letter-spacing: 0.01em;
+  font-size: 1.7rem;
+  line-height: 1.5;
+  letter-spacing: 0.005em;
+  margin-bottom: 1.1rem;
 }
 /* セクションの H2 に細いしおりを付けて区切りを分かりやすくする */
 .md-typeset h2 {
-  padding-left: 0.6rem;
+  margin-top: 2.4em;
+  padding-left: 0.62rem;
   border-left: 3px solid var(--ct-teal);
   font-weight: 700;
+  font-size: 1.12rem;
+  line-height: 1.6;
 }
 .md-typeset h3 {
+  margin-top: 1.9em;
   font-weight: 600;
+  font-size: 0.95rem;
+}
+.md-typeset h4 {
+  font-weight: 600;
+}
+/* 手順の番号だけの段落（**1. 〇〇**）が続くので、段落間を詰めすぎない */
+.md-typeset p {
+  margin: 0.9em 0;
 }
 
 /* コード: 教材はコピペで進めるので、ファイル名とコピーボタンを目立たせる */
@@ -92,17 +115,44 @@
 .md-typeset pre > code {
   font-size: 0.76rem;
 }
-.md-typeset .highlight span.filename {
+.md-typeset :not(pre) > code {
+  padding: 0.12em 0.36em;
+  border-radius: 0.15rem;
+}
+.md-typeset .highlight > span.filename {
   background-color: var(--md-code-bg-color);
-  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+  border-bottom: 1px solid var(--ct-rule);
+  color: var(--md-default-fg-color--light);
   font-weight: 600;
-  font-size: 0.7rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.02em;
+}
+/* コピーボタンは既定だとホバーまでほぼ透明。本文が「右上のボタンでコピー」と
+   案内している教材なので、はじめての人にも見えるよう常時表示にする */
+.md-typeset .md-code__nav {
+  opacity: 1;
+}
+.md-typeset .md-code__button {
+  color: var(--md-default-fg-color--light);
+  opacity: 0.55;
+  transition: opacity 0.2s, color 0.2s;
+}
+.md-typeset .highlight:hover .md-code__button,
+.md-typeset .md-code__button:hover,
+.md-typeset .md-code__button:focus-visible {
+  color: var(--md-accent-fg-color);
+  opacity: 1;
 }
 
-/* 表: 横スクロールできるようにして狭い画面でも崩れないようにする */
+/* 表 */
 .md-typeset table:not([class]) {
-  font-size: 0.76rem;
+  font-size: 0.75rem;
   display: table;
+  border: 1px solid var(--ct-rule);
+}
+.md-typeset table:not([class]) th {
+  background: var(--ct-panel);
+  font-weight: 600;
 }
 .md-typeset__table {
   overflow-x: auto;
@@ -110,10 +160,15 @@
 
 /* コールアウト: 種類ごとの色は Material のままにして、角と余白だけ整える */
 .md-typeset :is(.admonition, details) {
-  border-radius: 0.3rem;
+  border-radius: 0.25rem;
   border-width: 0 0 0 3px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.07);
+  box-shadow: none;
+  outline: 1px solid var(--ct-rule);
+  outline-offset: -1px;
   font-size: 0.78rem;
+}
+.md-typeset :is(.admonition-title, summary) {
+  font-weight: 600;
 }
 
 /* 見出しのパーマリンク(¶)はホバーまで隠す */
@@ -127,78 +182,132 @@
   opacity: 1;
 }
 
-/* 画面キャプチャ: 要素単位で切り出してあるので原寸を超えて拡大しない */
+/* 画面キャプチャ: 要素単位で切り出してあるので原寸を超えて拡大しない。
+   淡い枠を付けて、本文とスクリーンショットの境目を分かるようにする */
 .md-typeset img {
   max-width: 100%;
   height: auto;
 }
+.md-typeset p > img:only-child {
+  border: 1px solid var(--ct-rule);
+  border-radius: 0.2rem;
+}
 
-/* Mermaid の図を中央に置く */
+/* Mermaid */
 .md-typeset .mermaid {
   text-align: center;
-  margin: 1.4em 0;
+  margin: 1.5em 0;
 }
 
-/* ---------------------------------------------------- トップページのヒーロー */
-.ct-hero {
-  margin: 0 0 2.4rem;
-  padding: 2.2rem 2rem;
-  border-radius: 0.5rem;
-  background: linear-gradient(135deg, #00526b 0%, #046f88 52%, #14bbbb 100%);
-  color: #ffffff;
+/* サイドバー: 61 セクションあるので、階層が目で追える濃淡にする */
+.md-nav__title {
+  font-weight: 700;
 }
-.ct-hero h1 {
-  margin: 0 0 0.6rem;
-  max-width: 22em;
-  color: #ffffff !important;
-  font-size: 1.6rem;
-  line-height: 1.5;
-  border: 0;
-  padding: 0;
+.md-nav--secondary .md-nav__title {
+  box-shadow: none;
+  border-bottom: 1px solid var(--ct-rule);
 }
-.ct-hero p {
-  margin: 0.4rem 0 0;
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 0.84rem;
-  line-height: 1.9;
-}
-.ct-hero .ct-meta {
-  margin-top: 1.2rem;
-  font-size: 0.72rem;
-  color: rgba(255, 255, 255, 0.75);
+.md-nav__link--active,
+.md-nav__link--active code {
+  font-weight: 600;
 }
 
-/* つくるもののカード */
-.ct-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-  gap: 0.9rem;
-  margin: 1.4rem 0 2rem;
+/* --------------------------------------------------- フッター（1段にする）
+   Material は「前後のページ」と「著作表記」で2枚のバンドに分かれる。
+   同じ地色にして境目を罫1本にし、1つのまとまりに見せる。 */
+.md-footer {
+  background-color: var(--ct-base-dark);
 }
-.ct-card {
-  padding: 1.1rem 1.2rem;
-  border: 1px solid var(--md-default-fg-color--lightest);
-  border-top: 3px solid var(--ct-teal);
-  border-radius: 0.3rem;
-  background: var(--md-default-bg-color);
+.md-footer-meta {
+  background-color: var(--ct-base-dark);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
-.ct-card strong {
-  display: block;
-  margin-bottom: 0.3rem;
-  font-size: 0.86rem;
+.md-footer-meta__inner {
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
 }
-.ct-card span {
-  font-size: 0.76rem;
-  line-height: 1.8;
+.md-copyright {
+  font-size: 0.62rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* -------------------------------------------------- トップページ（index）
+   飾りは足さない。事実と入口だけを、罫と余白で整理する。 */
+
+/* リード文 */
+.ct-lead {
+  font-size: 0.88rem !important;
+  line-height: 1.95;
   color: var(--md-default-fg-color--light);
+  max-width: 34em;
+}
+[data-md-color-scheme="slate"] .ct-lead,
+[data-md-color-scheme="slate"] .ct-facts .ct-facts__k {
+  color: var(--md-default-fg-color);
+  opacity: 0.86;
 }
 
-/* 「学習を始める」ボタン: 白文字が読める地色（8.7:1）を使う */
-.md-typeset .ct-start {
-  display: inline-block;
-  margin: 0.2rem 0 0;
-  padding: 0.65rem 1.6rem;
+/* つくるもの: 実際の完成画面と説明を並べる */
+.ct-shot {
+  display: grid;
+  grid-template-columns: 15rem 1fr;
+  gap: 2rem;
+  align-items: start;
+  margin: 1.6rem 0 2.2rem;
+  padding-bottom: 2.2rem;
+  border-bottom: 1px solid var(--ct-rule);
+}
+.ct-shot img {
+  width: 100%;
+  border: 1px solid var(--ct-rule);
   border-radius: 0.3rem;
+}
+.ct-shot .ct-shot__body > :first-child {
+  margin-top: 0;
+}
+@media screen and (max-width: 44.9375em) {
+  .ct-shot {
+    grid-template-columns: 1fr;
+    gap: 1.2rem;
+  }
+  .ct-shot img {
+    max-width: 15rem;
+  }
+}
+
+/* 事実の一覧（期間・環境・前提） */
+.ct-facts {
+  margin: 1.4rem 0 2rem;
+  border-top: 1px solid var(--ct-rule);
+}
+.ct-facts > div {
+  display: grid;
+  grid-template-columns: 7.5rem 1fr;
+  gap: 1rem;
+  padding: 0.62rem 0;
+  border-bottom: 1px solid var(--ct-rule);
+  font-size: 0.78rem;
+  line-height: 1.8;
+}
+.ct-facts dt,
+.ct-facts .ct-facts__k {
+  color: var(--md-default-fg-color--light);
+  font-weight: 600;
+}
+@media screen and (max-width: 44.9375em) {
+  .ct-facts > div {
+    grid-template-columns: 1fr;
+    gap: 0.1rem;
+  }
+}
+
+/* 「はじめる」ボタン: 白文字が読める地色（8.7:1）を使う */
+.md-typeset .ct-start {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.62rem 1.5rem;
+  border-radius: 0.25rem;
   background: var(--ct-base);
   color: #ffffff !important;
   font-size: 0.8rem;
@@ -206,14 +315,31 @@
   text-decoration: none;
   transition: background 0.2s;
 }
-.md-typeset .ct-start:hover {
-  background: #0a7d99;
+.md-typeset .ct-start:hover,
+.md-typeset .ct-start:focus {
+  background: var(--ct-base-light);
+}
+[data-md-color-scheme="slate"] .md-typeset .ct-start {
+  background: var(--ct-teal);
+  color: #04232b !important;
+}
+[data-md-color-scheme="slate"] .md-typeset .ct-start:hover,
+[data-md-color-scheme="slate"] .md-typeset .ct-start:focus {
+  background: #3fd0d0;
 }
 
-/* フッター */
-.md-footer {
-  background-color: var(--ct-base);
+/* カリキュラム表: 部の番号を目印にして行を追いやすくする */
+.md-typeset .ct-curriculum table:not([class]) {
+  font-size: 0.78rem;
 }
-.md-footer-meta {
-  background-color: var(--ct-base-dark);
+/* 見出しのない表なので、Markdown が要求する空のヘッダー行は隠す */
+.md-typeset .ct-curriculum thead {
+  display: none;
+}
+.md-typeset .ct-curriculum td:first-child {
+  white-space: nowrap;
+  font-weight: 600;
+}
+.md-typeset .ct-curriculum td:last-child {
+  white-space: nowrap;
 }

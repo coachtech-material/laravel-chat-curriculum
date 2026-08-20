@@ -1,5 +1,5 @@
-site_name: COACHTECH × PHP / Laravel 入門
-site_description: プログラミングがはじめての方が、ブラウザだけで自分のチャットアプリをつくりあげる入門教材です。
+site_name: PHP / Laravel 入門
+site_description: プログラミングがはじめての方が、Laravel でチャットアプリを一からつくる入門教材です。COACHTECH の教材。
 site_url: https://coachtech-material.github.io/laravel-chat-curriculum/
 
 docs_dir: docs
@@ -29,12 +29,10 @@ theme:
     code: JetBrains Mono
   features:
     - navigation.instant
-    - navigation.tabs
-    - navigation.tabs.sticky
-    - navigation.sections
-    - navigation.expand
+    - navigation.instant.progress
     - navigation.top
     - navigation.footer
+    - navigation.prune
     - search.suggest
     - search.highlight
     - content.code.copy
